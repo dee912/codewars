@@ -27,23 +27,53 @@ If the requirements of a valid test aren't met, the function should return -1
 //! T = target threshold 
 //! R = rate of infection per person
 
-
-function lockdownLift(N, T, R) {
-	const startDate = new Date('03/01/2021')
-  const days = 7
-  let weeks = 0
-  const endDate = new Date(start.setDate(start.getDate() + (days * weeks))).toGMTString()
-
-  if (N <= T) {
-    return console.log(end)
-  } else {
-    weeks++
-    N * R
+function lockdownLift(n,t,r) {
+  if(r > 1 || n < t ){
+    return -1
   }
+  
+  let weeks = 0
+  const months = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+  let infected = n
+  
+  while(infected >= t){
+   infected = infected * r;
+    weeks++;
+  }
+  
+  let day = 1+7*weeks
+  let month = 2
+  let year = 2021
+  
+  while(day > months[month]){
+    day = day - months[month];
+    month = month + 1;
+    if(month > 11){
+      month = 0
+      year = year + 1
+    }
+  }
+  
+  return (day+'/'+ (month + 1) +'/'+ year)
 }
+
+// function lockdownLift(N, T, R) {
+// 	const startDate = new Date('03/01/2021')
+//   const days = 7
+//   let weeks = 0
+//   const endDate = new Date(start.setDate(start.getDate() + (days * weeks))).toGMTString()
+
+//   if (N <= T) {
+//     return console.log(end)
+//   } else {
+//     weeks++
+//     N * R
+//   }
+// }
 
 
 /* Tests */
-lockdownLift(1000, 500, 0.5) // "15/03/2021"
+console.log(lockdownLift(1000, 500, 0.5)) // "15/03/2021"
 lockdownLift(1000, 500, 0.75) // "22/03/2021"
 lockdownLift(5000, 500, 0.75) // "03/05/2021"
